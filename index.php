@@ -35,6 +35,9 @@ echo "<hr>";
 echo $dog->getType();
 
 $dog->setEyes(2);
+$dog->setEars(1);
+
+echo "<br>" . $dog->getEars();
 
 echo "<br>" . $dog->getEyes();
 
