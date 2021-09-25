@@ -74,14 +74,14 @@ class Form {
 class SmartForm extends Form {
     
     protected function makeString($data) {
-        if (!empty($_REQUEST['name'])) {
+        if (isset($_REQUEST['name'])) {
             $data['value'] = $_REQUEST['name'];
         }
         return parent::makeString($data);
     }
 
     public function textarea($data) {
-        if (!empty($_REQUEST[$data['name']])) {
+        if (isset($_REQUEST[$data['name']])) {
             $value = $_REQUEST[$data['name']];
             if (isset($value)) unset($data['value']);
         }
