@@ -72,13 +72,6 @@ class Form {
 }
 
 class SmartForm extends Form {
-    
-    protected function makeString($data) {
-        if (isset($_REQUEST[$data['name']])) {
-            $data['value'] = $_REQUEST[$data['name']];
-        }
-        return parent::makeString($data);
-    }
 
     public function textarea($data) {
         if (isset($_REQUEST[$data['name']])) {
@@ -87,7 +80,14 @@ class SmartForm extends Form {
         }
         return "<textarea " . parent::makeString($data) . ">" . $value . "</textarea>";
     }
-
+    
+    protected function makeString($data) {
+        if (isset($_REQUEST[$data['name']])) {
+            $data['value'] = $_REQUEST[$data['name']];
+        }
+        return parent::makeString($data);
+    }
+    
 }
 
 $form = new SmartForm;
