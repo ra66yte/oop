@@ -34,7 +34,7 @@ class Form {
         $value = isset($data['value']) ? $data['value'] : null; // Боже, что я делаю :-(
         if (isset($value)) unset($data['value']);
 
-        $this->textarea = "\n<textarea " . $this->makeString($data) . ">" . ($value) . "</textarea>";
+        $this->textarea = "\n<textarea " . $this->makeString($data) . ">" . htmlspecialchars($value) . "</textarea>";
         return $this->textarea;
 
     }
@@ -58,7 +58,7 @@ class Form {
         if (is_array($data) and $data) {
             foreach ($data as $attribute => $value) {
                 if (in_array($attribute, $this->allow_attrs)) {
-                    $this->stringAttrs .= $attribute . ($attribute <> "disabled" ? "=\"${value}\"" : null) . " ";
+                    $this->stringAttrs .= $attribute . ($attribute <> "disabled" ? "=\"" . htmlspecialchars($value) . "\"" : null) . " ";
                 }
             }
 
@@ -74,15 +74,15 @@ class Form {
 class SmartForm extends Form {
     
     protected function makeString($data) {
-        if (isset($_REQUEST['name'])) {
-            $data['value'] = $_REQUEST['name'];
+        if (isset($_REQUEST[$data['name']])) {
+            $data['value'] = $_REQUEST[$data['name']];
         }
         return parent::makeString($data);
     }
 
     public function textarea($data) {
         if (isset($_REQUEST[$data['name']])) {
-            $value = $_REQUEST[$data['name']];
+            $value = htmlspecialchars($_REQUEST[$data['name']]);
             if (isset($value)) unset($data['value']);
         }
         return "<textarea " . parent::makeString($data) . ">" . $value . "</textarea>";
