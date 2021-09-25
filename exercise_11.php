@@ -52,7 +52,9 @@ class Flash {
 
     public function setMessage($name, $message) {
 
-        $this->sessionHelper->setSession($name, $message);
+        if ($this->sessionHelper->setSession($name, $message)) return true;
+
+        return false;
 
     }
 
