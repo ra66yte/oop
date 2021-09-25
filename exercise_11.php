@@ -42,16 +42,32 @@ class Session {
     }
 }
 
-$session = new Session;
+class Flash {
 
-$session->setSession("test", 1);
+    private $sessionHelper;
 
-echo $session->getSession("test");
+    public function __construct() {
+        $this->sessionHelper = new Session;
+    }
 
-$session->setSession("test", 2);
+    public function setMessage($name, $message) {
 
-echo $session->getSession("test");
+        $this->sessionHelper->setSession($name, $message);
 
-$session->deleteSession("test");
+    }
 
-var_dump($session->getSession("test"));
+    public function getMessage($name) {
+
+        if ($this->sessionHelper->checkSession($name)) return $this->sessionHelper->getSession($name);
+
+        return false;
+
+    }
+
+}
+
+$flash = new Flash;
+
+$flash->setMessage("message", "Hello, world!");
+
+echo $flash->getMessage("message");
