@@ -54,4 +54,4 @@ echo $session->getSession("test");
 
 $session->deleteSession("test");
 
-var_dump($session->getSession("test"));
+// var_dump($session->getSession("test"));
