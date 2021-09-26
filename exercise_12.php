@@ -12,8 +12,10 @@ class Db {
 
     private $table;
     private $colums;
+    private $values;
     private $where;
     private $count;
+    private $limit;
     private $row;
     private $rows;
     private $collection;
@@ -35,11 +37,46 @@ class Db {
 
     }
 
+    public function insertRows($params) {
+
+        $this->columns = array();
+        $this->values = array();
+
+        if (is_array($params) and $params) {
+
+            $this->table = $this->db->escape_string($params['where']);
+
+            if (is_array($params['columns']) and $params['columns']) {
+
+                foreach ($params['columns'] as $key => $value) {
+
+                    $this->colums[] = "`" . $key . "`";
+                    $this->values[] = "'" . $value . "'";
+
+                }
+
+                $this->columns = implode(", ", $this->columns) ? implode(", ", $this->columns) : $this->colums[0];
+                $this->values = implode(", ", $this->values) ? implode(", ", $this->values) : $this->values[0];
+            }
+
+            $sql = "INSERT INTO `" . $this->table . "` (" . $this->columns . ") VALUES (" . $this->values . ")";
+            if ($this->db->query($sql)) {
+                if ($this->db->affected_rows) return true;
+            }
+
+        }
+
+        return false;
+
+    }
+
     public function getRows($params) {
         $this->rows = array();
         if (is_array($params) and $params) {
 
             $this->table = $this->db->escape_string($params['where']);
+
+            if (isset($params['limit'])) $this->limit = abs(intval($params['limit']));
             
             if (is_array($params['conditions']) and $params['conditions']) {
                 $this->where = $this->getWhere($params['conditions']);
@@ -47,7 +84,7 @@ class Db {
 
         }
 
-        if ($this->collection = $this->db->query("SELECT * FROM `" . $this->table . "`" . $this->where . "")) {
+        if ($this->collection = $this->db->query("SELECT * FROM `" . $this->table . "`" . $this->where . " ORDER by `id` DESC" . ($this->limit ? " LIMIT 0, " . $this->limit : '') . "")) {
             while ($this->row = $this->collection->fetch_assoc())
 			    $this->rows[] = $this->row;
             
@@ -182,7 +219,7 @@ class Db {
 
 }
 
-$db = new Db('localhost', 'root', '', 'base');
+//$db = new Db('localhost', 'root', '', 'base');
 
 //var_dump($db->getCountRows(['where' => 'user', 'conditions' => array('name' => 'Вася')]));
 
@@ -192,6 +229,7 @@ $db = new Db('localhost', 'root', '', 'base');
 
 // var_dump($db->dropTables(['article']));
 
- var_dump($db->getRows(['where' => 'user', 'conditions' => array('name' => 'Петя')]));
+ //var_dump($db->getRows(['where' => 'user', 'conditions' => array('name' => 'Петя'), 'limit' => 20]));
 
 // var_dump($db->editRows(['where' => 'user', 'data' => array('name' => 'Петя'), 'conditions' => array('name' => 'Вася')]));
+//var_dump($db->insertRows(['where' => 'user', 'columns' => array('name' => 'Вася')]));
