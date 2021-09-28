@@ -28,6 +28,8 @@ abstract class User {
         return $this->age;
     }
 
+    abstract public function getAllProperties();
+
 
 }
 
@@ -51,6 +53,11 @@ class Employee extends User {
     public function getSalary() {
         return $this->salary;
     }
+
+    public function getAllProperties() {
+        return $this->getName() . " - " . $this->getAge() . " - " . $this->getSalary();
+    }
+
 }
 
 class Student extends User {
@@ -71,6 +78,10 @@ class Student extends User {
     public function getScholarship() {
         return $this->scholarship;
     }
+
+    public function getAllProperties() {
+        return $this->getName() . " - " . $this->getAge() . " - " . $this->getScholarship();
+    }
 }
 
 $employee = new Employee('Вася', 30, 1000);
@@ -88,3 +99,5 @@ $student->setAge(19);
 $student->setScholarship(500);
 
 var_dump($student);
+
+echo $student->getAllProperties();
