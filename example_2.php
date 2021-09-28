@@ -12,10 +12,22 @@ abstract class User {
 
     }
 
-    abstract public function setName($name);
-    abstract public function setAge($age);
-    abstract public function getName();
-    abstract public function getAge();
+    public function setName($name) {
+        $this->name = $name;
+    }
+
+    public function setAge($age) {
+        $this->age = $age;
+    }
+
+    public function getName() {
+        return $this->name;
+    }
+ 
+    public function getAge() {
+        return $this->age;
+    }
+
 
 }
 
@@ -31,24 +43,9 @@ class Employee extends User {
 
     }
 
-    public function setName($name) {
-        $this->name = $name;
-    }
-
-    public function setAge($age) {
-        $this->age = $age;
-    }
-
+    
     public function setSalary($salary) {
         $this->salary = $salary;
-    }
-
-    public function getName() {
-        return $this->name;
-    }
- 
-    public function getAge() {
-        return $this->age;
     }
 
     public function getSalary() {
@@ -67,24 +64,8 @@ class Student extends User {
 
     }
 
-    public function setName($name) {
-        $this->name = $name;
-    }
-
-    public function setAge($age) {
-        $this->age = $age;
-    }
-
     public function setScholarship($scholarship) {
         $this->scholarship = $scholarship;
-    }
-
-    public function getName() {
-        return $this->name;
-    }
- 
-    public function getAge() {
-        return $this->age;
     }
 
     public function getScholarship() {

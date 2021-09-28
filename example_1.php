@@ -2,6 +2,7 @@
 
 interface iUser {
 
+    public function __construct($name, $age, $var);
     public function setName($name);
     public function setAge($age);
     public function getName();
@@ -54,6 +55,14 @@ class Student implements iUser {
     private $age;
     private $scholarship;
 
+    public function __construct($name, $age, $scholarship) {
+
+        $this->name = $name;
+        $this->age = $age;
+        $this->scholarship = $scholarship;
+
+    }
+
     public function setName($name) {
         $this->name = $name;
     }
@@ -87,7 +96,7 @@ $employee->setSalary(2000);
 
 var_dump($employee);
 
-$student = new Student();
+$student = new Student('Коля', 21, 400);
 
 $student->setName('Иван');
 $student->setAge(19);
